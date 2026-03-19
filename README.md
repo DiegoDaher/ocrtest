@@ -38,7 +38,3 @@ Ubicación: `frontend/ocr-frontend/`
    npm run dev
    ```
 2. La interfaz permite subir archivos, elegir tipo de documento y ver el JSON devuelto por la API.
-
-## Material de prueba
-
-`test_material/` contiene archivos PDF/JPG reales para validar el pipeline de OCR.
