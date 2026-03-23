@@ -19,6 +19,12 @@ class OCRFields(BaseModel):
     name: str | None = Field(default=None, description="Nombre de la persona")
     address: str | None = Field(default=None, description="Domicilio del documento")
     curp: str | None = Field(default=None, description="CURP detectada")
+    clave: str | None = Field(default=None, description="Clave CURP detectada (constancia CURP)")
+    certification_status: str | None = Field(
+        default=None,
+        description="Estado de certificación CURP detectado en la constancia",
+    )
+    is_certified: bool | None = Field(default=None, description="Indica si la CURP aparece certificada")
     birth_date: str | None = Field(default=None, description="Fecha de nacimiento detectada")
     validity: str | None = Field(default=None, description="Vigencia detectada")
 

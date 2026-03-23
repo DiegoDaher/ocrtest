@@ -79,8 +79,8 @@ export default function Home() {
             <span className={styles.badge}>OCR demo</span>
             <h1>Extrae datos clave de INE o CURP en segundos</h1>
             <p>
-              Carga un PDF o imagen y consulta el JSON con Nombre, Domicilio, CURP,
-              Fecha de Nacimiento y Vigencia usando la API Python.
+              Carga un PDF o imagen y consulta el JSON. Para INE extrae Nombre, Domicilio, CURP y fechas; para CURP
+              extrae Nombre, Clave y estado de certificación.
             </p>
           </div>
 
@@ -140,28 +140,48 @@ export default function Home() {
 
           {hasResult ? (
             <>
-              <dl className={styles.grid}>
-                <div>
-                  <dt>Nombre</dt>
-                  <dd>{fields?.name ?? "No detectado"}</dd>
-                </div>
-                <div>
-                  <dt>Domicilio</dt>
-                  <dd>{fields?.address ?? "No detectado"}</dd>
-                </div>
-                <div>
-                  <dt>CURP</dt>
-                  <dd>{fields?.curp ?? "No detectado"}</dd>
-                </div>
-                <div>
-                  <dt>Fecha de nacimiento</dt>
-                  <dd>{fields?.birth_date ?? "No detectado"}</dd>
-                </div>
-                <div>
-                  <dt>Vigencia</dt>
-                  <dd>{fields?.validity ?? "No detectado"}</dd>
-                </div>
-              </dl>
+              {documentType === "curp" ? (
+                <dl className={styles.grid}>
+                  <div>
+                    <dt>Nombre</dt>
+                    <dd>{fields?.name ?? "No detectado"}</dd>
+                  </div>
+                  <div>
+                    <dt>Clave</dt>
+                    <dd>{fields?.clave ?? fields?.curp ?? "No detectado"}</dd>
+                  </div>
+                  <div>
+                    <dt>Certificación</dt>
+                    <dd>
+                      {fields?.certification_status ??
+                        (fields?.is_certified ? "CURP Certificada" : "No detectado")}
+                    </dd>
+                  </div>
+                </dl>
+              ) : (
+                <dl className={styles.grid}>
+                  <div>
+                    <dt>Nombre</dt>
+                    <dd>{fields?.name ?? "No detectado"}</dd>
+                  </div>
+                  <div>
+                    <dt>Domicilio</dt>
+                    <dd>{fields?.address ?? "No detectado"}</dd>
+                  </div>
+                  <div>
+                    <dt>CURP</dt>
+                    <dd>{fields?.curp ?? "No detectado"}</dd>
+                  </div>
+                  <div>
+                    <dt>Fecha de nacimiento</dt>
+                    <dd>{fields?.birth_date ?? "No detectado"}</dd>
+                  </div>
+                  <div>
+                    <dt>Vigencia</dt>
+                    <dd>{fields?.validity ?? "No detectado"}</dd>
+                  </div>
+                </dl>
+              )}
               <label className={styles.label}>
                 Texto completo OCR
                 <textarea
