@@ -25,3 +25,34 @@ uvicorn app.main:app --reload
 ```
 
 Endpoint principal: `POST /ocr` (form-data con `file` y campo query `document_type` = `ine` o `curp`).
+
+## Ejecucion con Docker
+
+### 1) Construir imagen
+
+```bash
+cd ..
+docker compose build backend
+```
+
+### 2) Levantar servicio
+
+```bash
+docker compose up -d backend
+```
+
+### 3) Verificar
+
+```bash
+curl http://localhost:8000/health
+```
+
+### 4) Logs
+
+```bash
+docker compose logs -f backend
+```
+
+Notas:
+- El contenedor instala Tesseract, idioma espanol y Poppler automaticamente.
+- La configuracion del servicio esta en `../docker-compose.yml` y `./.env.docker`.

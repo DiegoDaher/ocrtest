@@ -26,6 +26,27 @@ Ubicación: `backend/`
    ```
 5. Tests unitarios: `pytest` (desde `backend/`).
 
+### Backend como servicio Docker
+
+Desde la raiz del proyecto:
+
+```bash
+docker compose build backend
+docker compose up -d backend
+```
+
+Healthcheck:
+
+```bash
+curl http://localhost:8000/health
+```
+
+Logs:
+
+```bash
+docker compose logs -f backend
+```
+
 ## Frontend (Next.js + TS)
 
 Ubicación: `frontend/ocr-frontend/`
