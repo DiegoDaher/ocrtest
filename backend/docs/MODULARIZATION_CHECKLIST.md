@@ -1,27 +1,22 @@
-# OCR Backend Modularization
+﻿# Checklist de Modularizacion OCR Backend
 
-This document describes how to add new document extractors without changing
-public API contracts.
+Este checklist ayuda a extender el backend sin romper contratos publicos.
 
-## Current Internal Architecture
+## Arquitectura interna vigente
+- `app.ocr.service.run_ocr`: fachada interna consumida por la capa API.
+- `app.ocr.pipeline.*`: pipeline OCR por responsabilidades.
+- `app.ocr.extractors.*`: extraccion por tipo documental con registry.
+- `app.ocr.fields.extract_fields`: fachada de compatibilidad.
 
-- `app.ocr.service.run_ocr`: public internal facade used by API layer.
-- `app.ocr.pipeline.*`: OCR processing split by responsibilities.
-- `app.ocr.extractors.*`: field extraction by document type with registry.
-- `app.ocr.fields.extract_fields`: backward-compatible facade for extractor dispatch.
+## Checklist para agregar un nuevo documento
+1. Agregar tipo en `app.models.DocumentType`.
+2. Implementar extractor nuevo usando `app.ocr.extractors.template`.
+3. Registrar extractor en `app.ocr.extractors.registry`.
+4. Agregar pruebas de regresion con muestras representativas.
+5. Verificar compatibilidad de `OCRFields` y `OCRResponse`.
+6. Ejecutar `pytest` completo en backend.
 
-## Checklist: Add New Document Type
-
-1. Add the new enum value in `app.models.DocumentType`.
-2. Implement extractor class using the template in `app.ocr.extractors.template`.
-3. Register extractor in `app.ocr.extractors.registry`.
-4. Add regression tests with representative OCR text samples.
-5. Verify metadata and response contract remain compatible.
-6. Run full backend tests (`pytest`) before merging.
-
-## Notes
-
-- Keep `OCRFields` and `OCRResponse` stable unless explicitly planned.
-- Prefer new extractor modules over expanding large conditional blocks.
-- Keep OCR pipeline changes isolated from extraction rules whenever possible.
-
+## Reglas de seguridad funcional
+- No romper `POST /ocr`.
+- No renombrar ni eliminar campos de `OCRFields`.
+- Mantener separacion entre OCR pipeline y reglas de extraccion.
